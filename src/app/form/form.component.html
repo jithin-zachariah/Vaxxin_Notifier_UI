@@ -1,0 +1,40 @@
+<div class="example-container">
+  <div class="form-container">
+    <form [formGroup]="loginForm" (submit)="submit()">
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> E-mail
+        </mat-label>
+        <input matInput formControlName="email" required>
+        <mat-error *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
+          <span *ngIf="loginForm.controls.email.errors.required">This field is mandatory.</span>
+          <span *ngIf="loginForm.controls.email.errors.pattern">This field is invalid.</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> State
+        </mat-label>
+        <mat-select required formControlName="state">
+          <mat-option *ngFor="let state of states" [value]="state.state_id">
+            {{state.state_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> District
+        </mat-label>
+        <mat-select required formControlName="district">
+          <mat-option *ngFor="let district of districts" [value]="district.district_id">
+            {{district.district_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Age
+        </mat-label>
+        <input matInput formControlName="age" type="number" required>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">Register</button>
+    </form>
+  </div>
+</div>
