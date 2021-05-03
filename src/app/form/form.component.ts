@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 import { RegistrationService } from "../registration.service";
 
@@ -18,7 +18,8 @@ export class FormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private regSer: RegistrationService
+    private regSer: RegistrationService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -40,6 +41,8 @@ export class FormComponent implements OnInit {
     if (!this.loginForm.valid) {
       return;
     }
+    this.showAlert("Successfully registered for email notifications!", "OK");
+
     await this.regSer.submitRegistration(this.loginForm);
   }
 
@@ -52,5 +55,10 @@ export class FormComponent implements OnInit {
     const { districts } = await this.regSer.fetchDistrictData(stateID);
     console.log(districts);
     this.districts = districts;
+  }
+  private showAlert(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+    });
   }
 }

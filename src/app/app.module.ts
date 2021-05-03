@@ -12,7 +12,8 @@ import {
   MatInputModule,
   MatOptionModule,
   MatSelectModule,
-  MatCardModule
+  MatCardModule,
+  MatSnackBarModule,
 } from "@angular/material";
 import { ReactiveFormsModule } from "@angular/forms";
 import { FormComponent } from "./form/form.component";
@@ -30,7 +31,8 @@ import { FormComponent } from "./form/form.component";
     MatCheckboxModule,
     MatOptionModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
