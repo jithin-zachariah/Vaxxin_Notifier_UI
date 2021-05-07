@@ -33,7 +33,7 @@ export class RegistrationService {
     const res = await axios({
       method: "post",
       url: `${environment.apiBaseUrl}/register`,
-      data: regData,
+      data: payload,
     });
     return res;
   }
