@@ -13,7 +13,7 @@ export class FormComponent implements OnInit {
   public states: Array<any> = [];
   public districts: Array<any> = [];
 
-  loginForm: FormGroup;
+  regForm: FormGroup;
   emailRegx = /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
 
   constructor(
@@ -23,42 +23,66 @@ export class FormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
+    this.regForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.pattern(this.emailRegx)]],
       state: [null, Validators.required],
+      stateID: [null, Validators.required],
       district: [null, Validators.required],
+      districtID: [null, Validators.required],
       age: [null, Validators.required],
     });
 
     this.fetchStatedata();
-    this.loginForm.get("state").valueChanges.subscribe((val) => {
-      console.log(val);
+    this.regForm.get("state").valueChanges.subscribe((val) => {
       this.fetchDistrictdata(val);
     });
   }
 
   public async submit() {
-    if (!this.loginForm.valid) {
-      return;
-    }
-    this.showAlert("Successfully registered for email notifications!", "OK");
+    try {
+      if (!this.regForm.valid) {
+        return;
+      }
+      console.log("form");
+      console.log(this.regForm.value);
 
-    await this.regSer.submitRegistration(this.loginForm);
+      await this.regSer.submitRegistration(this.regForm.value);
+      this.showAlert("Successfully registered for email notifications!", "OK");
+    } catch (error) {
+      this.showAlert(
+        "Failed to complete your registration. Please try again later!",
+        "OK"
+      );
+    }
   }
 
   private async fetchStatedata() {
-    const { states } = await this.regSer.fetchStateData();
-    console.log(states);
-    this.states = states;
+    try {
+      const { states } = await this.regSer.fetchStateData();
+      console.log(states);
+      this.states = states;
+    } catch (error) {
+      this.showAlert(
+        "Something went wrong on our side. Please try after some time!",
+        "OK"
+      );
+    }
   }
   private async fetchDistrictdata(stateID) {
-    const { districts } = await this.regSer.fetchDistrictData(stateID);
-    console.log(districts);
-    this.districts = districts;
+    try {
+      const { districts } = await this.regSer.fetchDistrictData(stateID);
+      console.log(districts);
+      this.districts = districts;
+    } catch (error) {
+      this.showAlert(
+        "Something went wrong on our side. Please try after some time!",
+        "OK"
+      );
+    }
   }
   private showAlert(message: string, action: string) {
     this.snackBar.open(message, action, {
-      duration: 3000,
+      duration: 5000,
     });
   }
 }
