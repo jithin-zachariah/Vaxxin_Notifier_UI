@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  environmentName: "PRODUCTION",
+  production: true,
+  apiBaseUrl: "https://vaxxine-api.herokuapp.com",
 };
